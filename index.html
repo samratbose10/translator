@@ -4,30 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Language Translator</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container" id="container">
+    <div class="container">
         <h1>Language Translator</h1>
-        <textarea id="textInput" placeholder="Enter text to translate"></textarea>
-        <br>
-        <select id="languageSelect">
+        <textarea id="text-to-translate" placeholder="Enter text to translate"></textarea>
+        <select id="target-language">
             <option value="es">Spanish</option>
             <option value="fr">French</option>
             <option value="de">German</option>
-            <option value="zh">Chinese</option>
+            <option value="hi">Hindi</option>
+            <option value="zh-CN">Chinese (Simplified)</option>
+            <!-- Add more languages as needed -->
         </select>
-        <br><br>
-        <button onclick="translateText()">Translate</button>
-        <button onclick="copyToClipboard()">Copy</button>
-        <button onclick="speakText()">Speak</button>
-        <button onclick="startVoiceInput()">Voice Input</button>
-        <p id="translatedText"></p>
-        <div id="loadingIndicator">Translating...</div>
-        <br>
-        <button onclick="toggleDarkMode()">Toggle Dark Mode</button>
-        <div class="history" id="historyContainer"></div>
+        <button id="translate-button">Translate</button>
+        <div id="translated-text"></div>
     </div>
-    <script src="translator.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

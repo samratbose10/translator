@@ -1,65 +1,31 @@
-let recognition;
+document.getElementById('translate-button').addEventListener('click', async function() {
+    const textToTranslate = document.getElementById('text-to-translate').value;
+    const targetLanguage = document.getElementById('target-language').value;
+    const apiKey = '96e1476da4msha3b6fd302117ea7p1cfe88jsnf36102d659d8'; // Replace with your RapidAPI key
 
-async function translateText() {
-    const text = document.getElementById('textInput').value;
-    const language = document.getElementById('languageSelect').value;
-    const apiKey = 'YOUR_API_KEY'; // Replace with your API key
-    const url = `https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=${language}`;
+    const url = 'https://google-translate1.p.rapidapi.com/language/translate/v2';
+    const data = new URLSearchParams();
+    data.append('q', textToTranslate);
+    data.append('target', targetLanguage);
+    data.append('source', 'en'); // Change this if you want to detect the source language dynamically
 
-    // Show loading indicator
-    document.getElementById('loadingIndicator').style.display = 'block';
-
-    // Error handling for empty input
-    if (!text.trim()) {
-        alert('Please enter text to translate');
-        document.getElementById('loadingIndicator').style.display = 'none';
-        return;
-    }
+    const options = {
+        method: 'POST',
+        headers: {
+            'x-rapidapi-key': apiKey,
+            'x-rapidapi-host': 'google-translate1.p.rapidapi.com',
+            'Accept-Encoding': 'application/gzip',
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: data
+    };
 
     try {
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Ocp-Apim-Subscription-Key': apiKey,
-                'Ocp-Apim-Subscription-Region': 'YOUR_REGION' // Replace with your region
-            },
-            body: JSON.stringify([{ Text: text }])
-        });
-
-        if (!response.ok) {
-            throw new Error('Translation failed');
-        }
-
-        const data = await response.json();
-        const translatedText = data[0].translations[0].text;
-        document.getElementById('translatedText').innerText = translatedText;
-
-        // Save translation to history
-        addToHistory(text, translatedText);
+        const response = await fetch(url, options);
+        const result = await response.json();
+        const translatedText = result.data.translations[0].translatedText;
+        document.getElementById('translated-text').textContent = translatedText;
     } catch (error) {
-        alert('An error occurred: ' + error.message);
-    } finally {
-        // Hide loading indicator
-        document.getElementById('loadingIndicator').style.display = 'none';
+        console.error('Error:', error);
     }
-}
-
-function toggleDarkMode() {
-    const container = document.getElementById('container');
-    const body = document.body;
-    body.classList.toggle('dark-mode');
-    container.classList.toggle('dark-mode');
-}
-
-function copyToClipboard() {
-    const translatedText = document.getElementById('translatedText').innerText;
-    navigator.clipboard.writeText(translatedText).then(() => {
-        alert('Copied to clipboard');
-    }).catch(err => {
-        alert('Failed to copy: ' + err);
-    });
-}
-
-function speakText() {
-    const text = document.getElementById
+});
